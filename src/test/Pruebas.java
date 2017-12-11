@@ -35,7 +35,57 @@ public class Pruebas {
     return firstArray;
 
 }
-    
+ public static String removeAst( String operadores[]){
+   String salida=new String();
+     if (operadores.length > 0){  
+                char[] ultimo=operadores[operadores.length-1].toCharArray();        
+                for (int i=0; i<ultimo.length;i++){
+                    
+                    if (ultimo[i] == '#'){
+                       salida+=ultimo[i];
+                               } 
+                }
+                }
+   return salida;
+ }
+ public static String [] removeA( String operadores[]){
+  String salida[] = new String[operadores.length];//operadores:[,###,####*,##*,##]
+     if (operadores.length > 0){  
+                String temp = new String();
+                for (int i=0; i<operadores.length;i++){//recorre operadores
+                    if(operadores[i].contains("*")){ //operadores[i]:###*
+                        temp="";//limpia temp
+                        char[] seccion = operadores[i].toCharArray();//seccion:[#,#,#,*]
+                        for (int j=0; j<seccion.length;j++){//recorre seccion
+                            if(seccion[j] == '#'){
+                                temp +=seccion[j];
+                            }
+                        }//entra: seccion:###* sale temp:###
+                    }else temp = operadores[i];//si no contiene * se copia igual
+                    salida[i]=temp;
+                     }
+                }
+   return salida;//salida: [,###,####,##,##]
+ }
+ public static String [] moveA( String operadores[]){
+  String salida[] = new String[operadores.length];//operadores:[,###,####*,##*,##]
+     if (operadores.length > 0){  
+                String temp = new String();
+                for (int i=0; i<operadores.length;i++){//recorre operadores
+                    if(operadores[i].contains("*")){ //operadores[i]:###*
+                        temp="";//limpia temp
+                        char[] seccion = operadores[i].toCharArray();//seccion:[#,#,#,*]
+                        for (int j=0; j<seccion.length;j++){//recorre seccion
+                            if(seccion[j] == '#'){
+                                temp +=seccion[j];
+                            }
+                        }//entra: seccion:###* sale temp:###
+                    }else temp = operadores[i];//si no contiene * se copia igual
+                    salida[i]=temp;
+                     }
+                }
+   return salida;//salida: [,###,####,##,##]
+ }
     
      public static void main(String[] args){
 //        String trama = "6##3###4";
@@ -46,9 +96,17 @@ public class Pruebas {
         //String patronEspecial [] = "#*1#1*".split("[0-9]+");
         //String patronEspecial [] = "#*#*".split("");
         //System.out.println(Arrays.toString(patronEspecial));
-        String prueba = "45";
-        
-        System.out.println(java.lang.Math.sin(java.lang.Math.toRadians(Double.parseDouble(prueba))));
+//        String prueba = "90";
+//        double print = java.lang.Math.sin(java.lang.Math.toRadians(Double.parseDouble(prueba)));
+//        System.out.println(print);
+//          String trama="90######*";
+//          String operadores[] = trama.split("[0-9]+");
+//          System.out.println(Arrays.toString(operadores));
+//          System.out.println(removeAst(operadores));
+         String trama = "1##2###3***";
+         String operadores[] = trama.split("[0-9*]+");
+         System.out.println("operadores:"+Arrays.toString(operadores));
+        // System.out.println("RemoveAst:"+Arrays.toString(removeA(operadores)));
         
     }
 }
