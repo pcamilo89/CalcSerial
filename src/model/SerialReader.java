@@ -9,19 +9,23 @@ package model;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Iterator;
+import javax.swing.JTextArea;
+import controller.MainViewController;
 
 /**
  * Hilo de escucha al canal de entrada RX del puerto serial
  * @author Camilo
  */
+
+
 public class SerialReader implements Runnable{
     //Canal de entrada RX
+ 
         private static ArrayList<Character> Entrada = new ArrayList<Character>();
 
 
-    private InputStream in;
-
+     private InputStream in;
+    private boolean live = true;
     /**
      * Constructor del hilo.
      * @param in Canal de entrada del puerto serial.
@@ -30,6 +34,26 @@ public class SerialReader implements Runnable{
     {
         this.in = in;
     }
+
+    
+    
+    
+    /**
+     * Metodo para consultar si el hilo sige activo
+     * @return boolean true or false
+     */
+    public boolean isLive() {
+        return live;
+    }
+
+    /**
+     * Metodo para setear si el hilo seguira con vida
+     * @param live boolean true or false
+     */
+    public void setLive(boolean live) {
+        this.live = live;
+    }
+
     
     
     public static void showArrayList(ArrayList<Character> Entrada){
@@ -58,8 +82,9 @@ public class SerialReader implements Runnable{
                         Entrada.clear(); //Se borra el arrayList
                         
                         System.out.println(Entrada);
-                        
-                        
+                        Message.clearMsg();
+                         MainViewController.VaciarInpiut("");     
+                        MainViewController.VaciarResultado();
                         }
                     //    System.out.println("vacialo");
                         
@@ -67,6 +92,19 @@ public class SerialReader implements Runnable{
 
                 }
     }
+    
+    
+    
+      public static void escribir(Character input){
+ 
+          JTextArea hola= new JTextArea();
+          
+          hola.insert(Character.toString(input),1);
+
+          
+    }
+    
+    
 
     
     public static void verificar(ArrayList<Character> Entrada){
@@ -77,19 +115,22 @@ public class SerialReader implements Runnable{
         if ((Entrada.get(1)=='#')&&((Entrada.get(2)!='#'))){
               resultado=Character.getNumericValue(Entrada.get(0))+(Character.getNumericValue(Entrada.get(2)));
               System.out.println("esto es suma");
-              System.out.println(resultado);       
+              System.out.println(resultado);     
+              MainViewController.setearResultado(resultado);
         }
         if(Entrada.size()>3){
               if ((Entrada.get(1)=='#')&&((Entrada.get(2)=='#'))&&((Entrada.get(3)!='#'))){
               resultado=Character.getNumericValue(Entrada.get(0))-(Character.getNumericValue(Entrada.get(3)));
               System.out.println("esto es resta");
               System.out.println(resultado);
+              MainViewController.setearResultado(resultado);
               }
                     if(Entrada.size()>4){
                     if ((Entrada.get(1)=='#')&&((Entrada.get(2)=='#'))&&((Entrada.get(3)=='#'))&&((Entrada.get(4)!='#'))){
                     resultado=Character.getNumericValue(Entrada.get(0))*(Character.getNumericValue(Entrada.get(4)));
                     System.out.println("esto es multiplicacion");
                     System.out.println(resultado);
+                    MainViewController.setearResultado(resultado);
                     }
                     
                     
@@ -99,6 +140,7 @@ public class SerialReader implements Runnable{
                                             resultado=Character.getNumericValue(Entrada.get(0))/(Character.getNumericValue(Entrada.get(5)));
                                             System.out.println("esto es division");
                                             System.out.println(resultado);
+                                            MainViewController.setearResultado(resultado);
                                             }
                                             if(Entrada.size()>6)
                                         {
@@ -106,6 +148,7 @@ public class SerialReader implements Runnable{
                                             resultado=(int) Math.pow(Character.getNumericValue(Entrada.get(0)),Character.getNumericValue(Entrada.get(6)));
                                             System.out.println("esto es potenciacion");
                                             System.out.println(resultado);
+                                            MainViewController.setearResultado(resultado);
                                             }
                                         }
                                         else
@@ -140,6 +183,8 @@ public class SerialReader implements Runnable{
     /**
      * Metodo que se ejecuta al iniciar el hilo.
      */
+    
+    
     public void run ()
     {
     
@@ -168,11 +213,13 @@ public class SerialReader implements Runnable{
                     Message.fillMsg(c);
                     //Entrada.add(c);
                    // System.out.println(Entrada.get(0));
-                    llenarArrayList(Entrada,c);
-                    
-                    showArrayList(Entrada);
+                   llenarArrayList(Entrada,c); 
+                   showArrayList(Entrada);
                    verificar(Entrada);
                    verificarAsterisco(Entrada);
+                   MainViewController.setear(Message.getMsg());
+                   
+                   
                    //System.out.println(Entrada);
          
                     //System.out.println(c);
