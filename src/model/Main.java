@@ -24,6 +24,8 @@ public class Main {
         //Iniciando Hilo de Entrada por Serial
         SerialReader reader = new SerialReader(SerialComm.getIn());
         new Thread(reader).start();
+        OperationListener listener = new OperationListener();
+        new Thread(listener).start();
         
         System.out.println("Serial Comm Iniciado.");
         

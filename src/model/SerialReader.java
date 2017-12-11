@@ -8,6 +8,8 @@ package model;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+
 
 /**
  * Hilo de escucha al canal de entrada RX del puerto serial
@@ -34,8 +36,10 @@ public class SerialReader implements Runnable{
         byte[] buffer = new byte[1];
         int len = -1;
         String msg;
+        String trama=new String();
         char[] arr;
         char c;
+               
         try
         {
             //ciclo de lectura del buffer de entrada
@@ -44,17 +48,17 @@ public class SerialReader implements Runnable{
 
                 msg = new String(buffer,0,len);
                 arr = msg.toCharArray();
+                
 
                 //Segmento donde se maneja cuando se recibe cualquier caracter.
                 if(arr.length > 0){
                     
                     c = (char) arr[0];
-                    //Utils.printMSG(c);
-
+                  
                     /* Se llena el mensaje actual con los caracteres que van llegando del buffer
                     */
                     Message.fillMsg(c);
-                    System.out.println(Message.getMsg());
+                   System.out.println(Message.getMsg());
                 }
 
             }

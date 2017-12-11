@@ -22,7 +22,7 @@ public class Test {
     {
         super();
     }
-    
+  
     @SuppressWarnings("empty-statement")
     void connect ( String portName ) throws Exception
     {
