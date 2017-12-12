@@ -6,6 +6,7 @@
 
 package model;
 
+import controller.CalculatorViewController;
 import java.io.IOException;
 import java.lang.Math;
 import java.util.ArrayList;
@@ -50,9 +51,18 @@ public class OperationListener implements Runnable{
                 //System.out.println(mensaje);
                 if (mensaje.equals("#*#*")){
                     System.out.println("Ponme 20 puntos");
+                    Message.setMsg("Ponme 20 puntos");
+                    
+                    CalculatorViewController.fillString(Message.getMsg());
+                    try {
+                        Thread.sleep(3000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(OperationListener.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 if (mensaje.equals("*")){
-                    Message.clearMsg();;
+                    Message.clearMsg();
+                    CalculatorViewController.fillString(Message.getMsg());
                 }
                 for (int i=0; i<ultimo.length;i++){
                     
@@ -62,6 +72,7 @@ public class OperationListener implements Runnable{
                  
                     if (contador>1){
                         Message.clearMsg();
+                        CalculatorViewController.fillString(Message.getMsg());
                     }else if (contador == 1  && operadores.length >= 2) {                 
                         
                             calculos(mensaje);
@@ -91,44 +102,50 @@ public class OperationListener implements Runnable{
 
     public void calculos(String tramaEntrante){
          tramaEntrante = removeLastChar(tramaEntrante);//quita el asterisco al final
-          String operadores[] = tramaEntrante.split("[0-9*]+");//array de operadores
+          String operadores[] = tramaEntrante.split("[0-9*.]+");//array de operadores
           String numeros[] = tramaEntrante.split("[#*]");//array de numeros
              numeros=removeNull(numeros);     //quita casillas en blanco del arreglo
                     System.out.println("operadores="+Arrays.toString(operadores));
                     Double resultado = Double.parseDouble(numeros[0]);
                     System.out.println("numeros="+Arrays.toString(numeros));
-                    int flag = 0;
-                    for (int i = 0; i < numeros.length; i++) {
-                       //System.out.println("Estoy en for");
-                        if (operadores[i].equals("#")) { //suma
-                           resultado += Integer.parseInt(numeros[i]);
-                        } //else
-                          if (operadores[i].equals("##")){  //resta
-                        resultado -= Integer.parseInt(numeros[i]);
-                       }//else
-                         if (operadores[i].equals("###")){  //mult
-                        resultado = resultado * Integer.parseInt(numeros[i]);
-                       }//else
-                         if (operadores[i].equals("####")){  //div
-                        resultado = resultado / Integer.parseInt(numeros[i]);
-                       }//else
-                         if (operadores[i].equals("#####")){  //potencia
-                         resultado = Math.pow(resultado, Double.parseDouble(numeros[i]));
-                         flag=1;
-                       }//else
-//                       
-                    }
-                   
-                    if(numeros.length==1 && operadores[1].equals("######")){ //sin
+
+                    if(operadores.length != 0){
+                        for (int i = 0; i < numeros.length; i++) {
+                           //System.out.println("Estoy en for");
+                            if (operadores[i].equals("#")) { //suma
+                               resultado += Double.parseDouble(numeros[i]);
+                            } //else
+                              if (operadores[i].equals("##")){  //resta
+                            resultado -= Double.parseDouble(numeros[i]);
+                           }//else
+                             if (operadores[i].equals("###")){  //mult
+                            resultado = resultado * Double.parseDouble(numeros[i]);
+                           }//else
+                             if (operadores[i].equals("####")){  //div
+                            resultado = resultado / Double.parseDouble(numeros[i]);
+                           }//else
+                             if (operadores[i].equals("#####")){  //potencia
+                             resultado = Math.pow(resultado, Double.parseDouble(numeros[i]));
+                           }//else
+    //                       
+                        }
+                        if(numeros.length==1 && operadores[1].equals("######")){ //sin
                         resultado = Math.sin(Math.toRadians(resultado));                       
-                    }
-                     if(numeros.length==1 && operadores[1].equals("#######")){ //cos
-                      resultado = Math.cos(Math.toRadians(resultado));                       
+                        }
+                         if(numeros.length==1 && operadores[1].equals("#######")){ //cos
+                          resultado = Math.cos(Math.toRadians(resultado));                       
+                        }
+                        
+                        resultado = (double) Math.round(resultado * 1000d) / 1000d;
+                        System.out.println(resultado);
+                        Message.setMsg(String.valueOf(resultado));
+                        CalculatorViewController.fillString(Message.getMsg());
+                            
+                        
+                        
+                        
                     }
                     
-                    if (flag==0){
-                    System.out.println(resultado);
-                    } else System.out.println(resultado.intValue());//para que imprima la potenciacion en entero
                    
     }
 }

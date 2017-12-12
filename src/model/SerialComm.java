@@ -54,6 +54,7 @@ public class SerialComm {
         if ( portIdentifier.isCurrentlyOwned() )
         {
             System.out.println("Error: Port is currently in use");
+            //serialPort = null;
         }
         else
         {

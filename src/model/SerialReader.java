@@ -6,6 +6,7 @@
 
 package model;
 
+import controller.CalculatorViewController;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -57,8 +58,12 @@ public class SerialReader implements Runnable{
                   
                     /* Se llena el mensaje actual con los caracteres que van llegando del buffer
                     */
-                    Message.fillMsg(c);
+                   Message.fillMsg(c);
                    System.out.println(Message.getMsg());
+                   CalculatorViewController.fillString(Message.getMsg());
+                   
+                   CalculatorViewController.pressButton(c);
+                   
                 }
 
             }

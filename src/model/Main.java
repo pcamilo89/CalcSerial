@@ -9,33 +9,60 @@ package model;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import view.CalculatorView;
 /**
  *
  * @author Camilo
  */
+
 public class Main {
-    public static void main(String[] args) throws IOException, InterruptedException{
+    public static boolean start = false;
+    
+    public static void startApp(){
         //Iniciando SerialComm
         try {
-            SerialComm.connect("COM2");
+            SerialComm.connect(Utils.PORT_NAME);
+            
+            if(SerialComm.getSerialPort()!=null && start == false){
+                //Iniciando Hilo de Entrada por Serial
+                SerialReader reader = new SerialReader(SerialComm.getIn());
+                new Thread(reader).start();
+                OperationListener listener = new OperationListener();
+                new Thread(listener).start();
+                
+                System.out.println("Serial Comm Iniciado.");
+                start = true;
+            }
+                
+            
         } catch (Exception ex) {
             Logger.getLogger(SerialComm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //Iniciando Hilo de Entrada por Serial
-        SerialReader reader = new SerialReader(SerialComm.getIn());
-        new Thread(reader).start();
-        OperationListener listener = new OperationListener();
-        new Thread(listener).start();
         
-        System.out.println("Serial Comm Iniciado.");
+    }
+    
+    public static void main(String[] args) throws IOException, InterruptedException{
         
-//        //test de envio de informacion.
-//        int y=65;
-//        for(int i=0;i<5;i++){
-//            Thread.sleep(2000);
-//            SerialComm.sendMsg(i+y,y);
-//        }
+        //Codigo de iniciacion de interfaz
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(CalculatorView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         
-        //SerialComm.close();
+        CalculatorView calculator =  new CalculatorView();
+        calculator.setVisible(true);
+        
+        while(start == false){
+            if(Utils.textDialog(calculator)){
+                Main.startApp();
+            }
+        }
+        
     }
 }
