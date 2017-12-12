@@ -6,10 +6,12 @@
 
 package controller;
 
-import model.Utils;
+import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import model.Message;
+import model.Utils;
 import view.CalculatorView;
 
 public class CalculatorViewController {
@@ -20,6 +22,7 @@ public class CalculatorViewController {
         calculator.setLocationRelativeTo(null);
         calculator.getjTFPantalla().setEditable(false);
         calculator.setTitle(Utils.APP_TITTLE);
+        CalculatorViewController.charFromKeyboard();
     }
     
     public static void fillString(String text){
@@ -51,5 +54,38 @@ public class CalculatorViewController {
             button.getModel().setArmed(false);
             button.getModel().setPressed(false);
         }
+    }
+    
+    public static void charFromKeyboard(){
+        KeyListener keylistener = new java.awt.event.KeyAdapter() {
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                //System.out.println("Se presiono una tecla");
+                
+                //si se presiona una tecla y es una de las teclas permitidas
+                char c = evt.getKeyChar();
+                if(c == '0' || c == '1' || c == '2' || c == '3' ||c == '4' ||
+                   c == '5' || c == '6' || c == '7' || c == '8' || c == '9' ||
+                   c == '#' || c == '*' || c == '.' ){
+                    
+                    //se agrega caracter al final de la trama y se activa interfaz
+                
+                    Message.fillMsg(c);
+                    CalculatorViewController.pressButton(c);
+                    
+                    System.out.println(Message.getMsg());
+                    CalculatorViewController.fillString(Message.getMsg());
+                    
+                }                
+            }
+        };
+        calculator.addKeyListener(keylistener);
+        calculator.getjTFPantalla().addKeyListener(keylistener);
+        
+        JButton buttons[] = calculator.getButtonArray();
+        for(JButton button: buttons){
+            button.addKeyListener(keylistener);
+        }
+        
     }
 }

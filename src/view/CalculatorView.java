@@ -6,10 +6,10 @@
 
 package view;
 
+import controller.CalculatorViewController;
 import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import controller.CalculatorViewController;
 import javax.swing.JTextField;
 import model.Message;
 

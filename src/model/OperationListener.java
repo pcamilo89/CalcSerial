@@ -7,8 +7,6 @@
 package model;
 
 import controller.CalculatorViewController;
-import java.io.IOException;
-import java.lang.Math;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

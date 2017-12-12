@@ -9,7 +9,6 @@ package model;
 import controller.CalculatorViewController;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 
 /**

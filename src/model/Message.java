@@ -15,6 +15,12 @@ public class Message {
         msg = msg + c;        
     }
     
+    public static char getLastChar(){
+        if(msg.length() > 0)
+            return msg.charAt(msg.length()-1);
+        return 'q';
+    }
+    
     public static void clearMsg(){
         msg = "";
     }
