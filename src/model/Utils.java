@@ -21,6 +21,8 @@ public class Utils {
     public static final String APP_TITTLE = "CalcSerial";
     
     public static final String PORT_TEXT = "Indique Puerto COM:";
+    public static final String MSG_ESPECIAL = "Biagio ponme 20 puntos";
+            
     public static String PORT_NAME = "COM1";
     
     

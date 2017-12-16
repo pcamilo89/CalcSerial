@@ -63,7 +63,7 @@ public class SerialComm {
             if ( commPort instanceof SerialPort )
             {
                 serialPort = (SerialPort) commPort;
-                serialPort.setSerialPortParams(2400,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
+                serialPort.setSerialPortParams(1200,SerialPort.DATABITS_8,SerialPort.STOPBITS_1,SerialPort.PARITY_NONE);
                 
                 in = serialPort.getInputStream();
                 out = serialPort.getOutputStream();

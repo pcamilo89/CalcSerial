@@ -48,8 +48,8 @@ public class OperationListener implements Runnable{
                 int contador=0;
                 //System.out.println(mensaje);
                 if (mensaje.equals("#*#*")){
-                    System.out.println("Ponme 20 puntos");
-                    Message.setMsg("Ponme 20 puntos");
+                    System.out.println(Utils.MSG_ESPECIAL);
+                    Message.setMsg(Utils.MSG_ESPECIAL);
                     
                     CalculatorViewController.fillString(Message.getMsg());
                     try {
@@ -79,24 +79,26 @@ public class OperationListener implements Runnable{
                 }
             }
             
-    }    
-    private static String removeLastChar(String str) {  //función que elimina el ultimo char de un string
-    return str.substring(0, str.length() - 1);
-}
- public static String[] removeNull(String[] firstArray) {
-  
-     List<String> list = new ArrayList<String>();
-
-    for(String s : firstArray) {
-       if(s != null && s.length() > 0) {
-          list.add(s);
-       }
     }
+    
+    private static String removeLastChar(String str) {  //función que elimina el ultimo char de un string
+        return str.substring(0, str.length() - 1);
+    }
+    
+    public static String[] removeNull(String[] firstArray) {
 
-    firstArray = list.toArray(new String[list.size()]);
-    return firstArray;
+        List<String> list = new ArrayList<String>();
 
-}
+       for(String s : firstArray) {
+          if(s != null && s.length() > 0) {
+             list.add(s);
+          }
+       }
+
+       firstArray = list.toArray(new String[list.size()]);
+       return firstArray;
+
+   }
 
     public void calculos(String tramaEntrante){
          tramaEntrante = removeLastChar(tramaEntrante);//quita el asterisco al final
