@@ -30,7 +30,7 @@ public class Main {
                 OperationListener listener = new OperationListener();
                 new Thread(listener).start();
                 
-                System.out.println("Serial Comm Iniciado.");
+                System.out.println("Serial Comm Iniciado en "+Utils.PORT_NAME);
                 start = true;
             }
                 

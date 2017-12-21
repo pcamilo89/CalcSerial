@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JButton;
+import model.ButtonAnimation;
 import model.Message;
 import model.Utils;
 import view.CalculatorView;
@@ -44,15 +45,8 @@ public class CalculatorViewController {
     public static void pressButton(char c){
         JButton button =  getButton(c);
         if(button != null){
-            button.getModel().setArmed(true);
-            button.getModel().setPressed(true);
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(CalculatorViewController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            button.getModel().setArmed(false);
-            button.getModel().setPressed(false);
+            ButtonAnimation animation = new ButtonAnimation(button);
+            new Thread(animation).start();
         }
     }
     
